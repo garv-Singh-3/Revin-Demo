@@ -1,6 +1,6 @@
-# Reven Relationship Desk — concept demo
+# Revin Relationship Desk — concept demo
 
-A local, interactive prototype for a client follow-up workflow, prepared as an interview conversation starter. All client names, contacts, teammates, activity, and email addresses are fictional. This is an independent concept, not an official Reven product.
+A local, interactive prototype for a client follow-up workflow, prepared as an interview conversation starter. All client names, contacts, teammates, activity, and email addresses are fictional. This is an independent concept, not an official Revin product.
 
 ## Run locally
 
