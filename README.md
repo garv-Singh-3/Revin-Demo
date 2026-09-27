@@ -16,8 +16,8 @@ Open the URL printed by Vite, usually <http://localhost:5173>. To check the prod
 ## Demo path
 
 1. On **Overview**, see overdue and upcoming relationships.
-2. Open **Northstar Technologies** to inspect context and change its cadence.
-3. Select **Prepare follow-up**, edit the sample draft, then **Mark contacted in demo**. This records a local event; it does **not** send email.
+2. Open **Northstar Mechanical** to inspect context and change its cadence.
+3. Select **Draft email & send**, edit the sample draft, then **Simulate send**. This records a local event; it does **not** send email.
 4. Open **Email bot demo** for the six-scene, animated inbox workflow: overdue detection, employee reminder, suggested draft, SEND/edit reply, simulated mailbox send, and CRM update.
 5. In **Settings & integrations**, switch the sample mailbox between Outlook and Gmail and adjust reminder, draft, and reply-approval toggles.
 6. Open **Follow-up queue**, **Calendar**, and **Team overview** for the optional dashboard views. Use **Settings & integrations → Reset sample clients** to restore the initial recording state.
