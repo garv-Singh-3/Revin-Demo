@@ -42,11 +42,11 @@ const seed = [
   makeClient('brightline','Brightline Media','BM','#e7eef4','Theo Adams','Head of Client Services','Media',60,18,'New primary contact joined last month.'),
   makeClient('horizon','Horizon Supply','HS','#ede8f4','Nina Foster','Director of Operations','Manufacturing',90,11,'Recently completed a successful account review.'),
 ];
-const load = (): Client[] => { try { const raw = localStorage.getItem('reven-relationship-demo-v1'); return raw ? JSON.parse(raw) as Client[] : seed; } catch { return seed; } };
+const load = (): Client[] => { try { const raw = localStorage.getItem('revin-relationship-demo-v1'); return raw ? JSON.parse(raw) as Client[] : seed; } catch { return seed; } };
 const dueDate = (c: Client) => addDays(c.lastContact, c.cadence);
 const status = (c: Client): 'Overdue' | 'Due soon' | 'On track' => daysUntil(dueDate(c)) < 0 ? 'Overdue' : daysUntil(dueDate(c)) <= 14 ? 'Due soon' : 'On track';
 const health = (c: Client) => Math.max(12, Math.min(98, Math.round(95 - Math.max(0, -daysUntil(dueDate(c))) * .85 - (daysUntil(dueDate(c)) <= 14 ? 15 : 0))));
-const Logo = () => <div className="brand"><div className="brand-mark"><span>r</span><i/></div><div className="brand-word">reven<span className="brand-dot">.</span></div><span className="brand-divider"/><span className="brand-sub">Relationship Desk</span></div>;
+const Logo = () => <div className="brand"><div className="brand-mark"><span>r</span><i/></div><div className="brand-word">revin<span className="brand-dot">.</span></div><span className="brand-divider"/><span className="brand-sub">Relationship Desk</span></div>;
 const Pill = ({ value }: { value: string }) => <span className={`pill ${value.toLowerCase().replace(' ','-')}`}><span className="pill-dot"/>{value}</span>;
 const Avatar = ({ client, small = false }: { client: Client; small?: boolean }) => <span className={`avatar ${small ? 'small' : ''}`} style={{ background: client.color }}>{client.initials}</span>;
 const PersonAvatar = ({ initials, color = '#d8e9df' }: { initials: string; color?: string }) => <span className="person-avatar" style={{ background: color }}>{initials}</span>;
@@ -65,7 +65,7 @@ export default function App() {
   const [showAdd, setShowAdd] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date(today().getFullYear(), today().getMonth(), 1));
-  useEffect(() => { localStorage.setItem('reven-relationship-demo-v1', JSON.stringify(clients)); }, [clients]);
+  useEffect(() => { localStorage.setItem('revin-relationship-demo-v1', JSON.stringify(clients)); }, [clients]);
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(''), 3500); return () => clearTimeout(t); }, [toast]);
   const sorted = useMemo(() => [...clients].sort((a,b) => daysUntil(dueDate(a)) - daysUntil(dueDate(b))), [clients]);
   const overdue = sorted.filter(c => status(c) === 'Overdue');
@@ -86,7 +86,7 @@ export default function App() {
   return <div className="app">
     <aside className={`sidebar ${mobileNav ? 'mobile-open' : ''}`}>
       <div className="sidebar-top"><Logo /><button className="icon-button mobile-close" aria-label="Close menu" onClick={() => setMobileNav(false)}><X size={19}/></button></div>
-      <div className="workspace-picker"><div className="workspace-icon">R</div><div><strong>Reven workspace</strong><small>Demo environment</small></div><ChevronDown size={15}/></div>
+      <div className="workspace-picker"><div className="workspace-icon">R</div><div><strong>Revin workspace</strong><small>Demo environment</small></div><ChevronDown size={15}/></div>
       <div className="sidebar-section-label">WORKSPACE</div>
       <nav className="nav-list">{nav.map(({ id, label, Icon, badge }) => <button key={id} className={`nav-item ${page === id && !selected ? 'active' : ''}`} onClick={() => navigate(id)}><Icon size={18} strokeWidth={1.9}/><span>{label}</span>{badge ? <b>{badge}</b> : null}</button>)}</nav>
       <div className="sidebar-section-label tools-label">TOOLS</div>
@@ -104,7 +104,7 @@ export default function App() {
           {page === 'team' && <TeamPage clients={clients} onClient={openClient} />}
           {page === 'settings' && <SettingsPage onReset={() => { if (window.confirm('Reset all sample clients and demo activity?')) { setClients(seed); setToast('Demo data reset.'); } }} />}
         </>}
-        <footer className="footer">Reven Relationship Desk <span>•</span> Concept prototype using fictional client data <span>•</span> No emails are sent</footer>
+        <footer className="footer">Revin Relationship Desk <span>•</span> Concept prototype using fictional client data <span>•</span> No emails are sent</footer>
       </main>
     </div>
     {composerClient && <div className="modal-backdrop" onMouseDown={e => { if (e.target === e.currentTarget) setDraftClient(null); }}><div className="modal composer"><div className="modal-header"><div className="modal-icon"><Mail size={20}/></div><div><h2>Prepare a thoughtful check-in</h2><p>Review and personalize this draft before reaching out.</p></div><button className="icon-button" aria-label="Close" onClick={() => setDraftClient(null)}><X size={20}/></button></div><div className="composer-meta"><div><small>CLIENT</small><strong>{composerClient.name}</strong></div><div><small>CONTACT</small><strong>{composerClient.contact}</strong></div><div><small>LAST TOUCHPOINT</small><strong>{dateFmt(composerClient.lastContact, { month:'short', day:'numeric' })}</strong></div></div><label className="field-label" htmlFor="reason">Reason for reaching out</label><select id="reason" className="input" value={reason} onChange={e => { setReason(e.target.value); generate(composerClient, e.target.value); }}>{['General check-in','Product update','Upcoming renewal','Recent conversation','Custom'].map(x => <option key={x}>{x}</option>)}</select><label className="field-label" htmlFor="draft">Email draft <span>Editable</span></label><textarea id="draft" className="draft-editor" value={draft} onChange={e => setDraft(e.target.value)} /><div className="draft-hint"><Sparkles size={15}/> Sample draft based on fictional client notes. Review details before using externally.</div><div className="modal-actions"><button className="button secondary" onClick={() => generate(composerClient)}><RefreshCw size={16}/> Regenerate</button><div className="action-spacer"/><button className="button secondary" onClick={() => { navigator.clipboard.writeText(draft).then(() => setToast('Draft copied to clipboard.')).catch(() => setToast('Clipboard unavailable. Select and copy the text instead.')); }}><Download size={16}/> Copy draft</button><button className="button primary" onClick={() => { contact(composerClient); setToast(`Demo: ${composerClient.name} marked contacted. No email was sent.`); }}><Check size={17}/> Mark contacted in demo</button></div></div></div>}
