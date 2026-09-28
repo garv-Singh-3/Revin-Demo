@@ -46,8 +46,32 @@ const seed = [
   makeClient('redwood','Redwood Health','RH','#f4e8e4','Isabella Kim','VP of Growth','Healthcare',90,36,'Requested a short status update in October.'),
   makeClient('brightline','Brightline Media','BM','#e7eef4','Theo Adams','Head of Client Services','Media',60,18,'New primary contact joined last month.'),
   makeClient('horizon','Horizon Supply','HS','#ede8f4','Nina Foster','Director of Operations','Manufacturing',90,11,'Recently completed a successful account review.'),
+  makeClient('ridgeway','Ridgeway Heating & Air','RH','#edf1fa','Camila Ortiz','General Manager','HVAC',60,74,'Ask how the fall maintenance campaign is performing.'),
+  makeClient('clearwater','Clearwater Plumbing','CP','#e3eff4','Aaron Bell','Service Manager','Plumbing',30,39,'Their dispatch team recently expanded to cover weekends.'),
+  makeClient('oakline','Oakline Roofing','OR','#f4e9de','Jasmine Cole','Director of Operations','Roofing',90,101,'Check on the inspection pipeline after the summer storms.'),
+  makeClient('silverpeak','Silverpeak Home Services','SH','#e8eef4','Michael Tran','VP of Customer Experience','Home Services',60,63,'Interested in reducing missed callbacks across branches.'),
+  makeClient('bluecrest','Bluecrest Electric','BE','#f1e7de','Tessa Wright','Operations Director','Electrical',60,72,'Their team wants a clearer handoff for after-hours calls.'),
+  makeClient('pinehouse','Pinehouse Comfort','PC','#e8f0e6','David Kim','Owner','HVAC',90,83,'Mention their upcoming winter service-plan push.'),
+  makeClient('everline','Everline Exteriors','EE','#e9edf7','Amina Yusuf','Regional Manager','Home Improvement',60,59,'Ask whether the new appointment routing is helping the sales team.'),
+  makeClient('sunward','Sunward Solar & Roofing','SS','#f8eddf','Lucas Romero','Head of Growth','Roofing',90,89,'Prefers a brief email before scheduling a call.'),
+  makeClient('stonebridge','Stonebridge Restoration','SR','#ecebf3','Grace Miller','Client Services Lead','Restoration',30,31,'Check on lead response during peak weather events.'),
+  makeClient('bayside','Bayside Air Care','BA','#e3f0ef','Omar Hassan','President','HVAC',60,53,'Their service team is planning a new membership campaign.'),
+  makeClient('cedarworks','Cedarworks Remodeling','CR','#f0e9df','Elena Brooks','Marketing Director','Home Improvement',90,70,'Ask about their recent showroom launch.'),
+  makeClient('northfield','Northfield Garage Doors','NG','#e8edf2','Ryan Patel','General Manager','Garage Services',60,48,'A concise check-in about booking conversion would be useful.'),
+  makeClient('brightwater','Brightwater Pools','BP','#e3f1f3','Lauren Davis','Operations Manager','Pool Services',120,112,'Seasonal demand changes their staffing plan each spring.'),
+  makeClient('ironwood','Ironwood Plumbing & Drain','IP','#eee9e3','Diego Flores','Owner','Plumbing',60,65,'Ask if the new call prioritization has helped technicians.'),
+  makeClient('skyline','Skyline Window & Bath','SW','#e7edf7','Nora Ahmed','Director of Sales','Home Improvement',90,93,'Interested in keeping unsold estimates from going cold.'),
+  makeClient('ember','Ember Fire & Safety','EF','#f7e8e4','Sophie Park','COO','Field Services',60,42,'Bring up the customer follow-up process discussed last quarter.'),
+  makeClient('mapleleaf','Mapleleaf Pest Control','MP','#e7f0e7','Chris Nguyen','Branch Manager','Pest Control',30,24,'Check how recurring service reminders are working.'),
+  makeClient('coastline','Coastline Climate','CC','#e6eef4','Valerie Chen','VP of Operations','HVAC',90,57,'Their team is reviewing the next quarter capacity plan.'),
+  makeClient('highland','Highland Home Repair','HH','#f2e9e2','Jordan Reyes','Founder','Home Services',60,27,'Prefers updates tied to specific operational results.'),
+  makeClient('riverside','Riverside Electrical','RE','#ecebf4','Amir Shah','Service Director','Electrical',90,47,'Ask about customer experience after the new dispatch rollout.'),
+  makeClient('goldenhour','Goldenhour Landscaping','GL','#e9f1e6','Megan Scott','General Manager','Landscaping',120,64,'Seasonal account review is planned before spring.'),
+  makeClient('redstone','Redstone Roofing Co.','RR','#f3e7df','Victor Alvarez','Managing Partner','Roofing',60,33,'They are testing a faster estimate follow-up process.'),
+  makeClient('harborlight','Harborlight Restoration','HR','#e5eef1','Isabel Torres','Operations Lead','Restoration',90,38,'Keep the next update focused on after-hours responsiveness.'),
+  makeClient('westhaven','Westhaven Mechanical','WM','#e9eaf2','Peter Wallace','Director of Service','HVAC',60,15,'Recently completed a successful winter readiness review.'),
 ];
-const load = (): Client[] => { try { const raw = localStorage.getItem('revin-relationship-demo-v2'); return raw ? JSON.parse(raw) as Client[] : seed; } catch { return seed; } };
+const load = (): Client[] => { try { const raw = localStorage.getItem('revin-relationship-demo-v2'); if (!raw) return seed; const saved = JSON.parse(raw) as Client[]; if (!Array.isArray(saved)) return seed; const savedIds = new Set(saved.map(c => c.id)); return [...saved, ...seed.filter(c => !savedIds.has(c.id))]; } catch { return seed; } };
 const dueDate = (c: Client) => addDays(c.lastContact, c.cadence);
 const status = (c: Client): 'Overdue' | 'Due soon' | 'On track' => daysUntil(dueDate(c)) < 0 ? 'Overdue' : daysUntil(dueDate(c)) <= 14 ? 'Due soon' : 'On track';
 const health = (c: Client) => Math.max(12, Math.min(98, Math.round(95 - Math.max(0, -daysUntil(dueDate(c))) * .85 - (daysUntil(dueDate(c)) <= 14 ? 15 : 0))));
