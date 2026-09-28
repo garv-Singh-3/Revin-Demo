@@ -1,6 +1,6 @@
 # Revin Relationship Desk — concept demo
 
-A local, interactive prototype for a client follow-up workflow, prepared as an interview conversation starter. All client names, contacts, teammates, activity, and email addresses are fictional. This is an independent concept, not an official Revin product.
+A local, interactive prototype for a client follow-up workflow, prepared as an interview conversation starter. It includes 42 fictional client accounts with varied industries and follow-up cadences. All client names, contacts, teammates, activity, and email addresses are fictional. This is an independent concept, not an official Revin product.
 
 ## Run locally
 
@@ -22,4 +22,4 @@ Open the URL printed by Vite, usually <http://localhost:5173>. To check the prod
 5. In **Settings & integrations**, switch the sample mailbox between Outlook and Gmail and adjust reminder, draft, and reply-approval toggles.
 6. Open **Follow-up queue**, **Calendar**, and **Team overview** for the optional dashboard views. Use **Settings & integrations → Reset sample clients** to restore the initial recording state.
 
-Client notes, cadence changes, added clients, activity, and assistant settings persist in the current browser's local storage. There is no backend, authentication, actual AI generation, mailbox connection, email delivery, reply processing, or CRM integration. The sample draft uses a deterministic template and sample notes. The inbox scenes and teammate totals are illustrative. The prototype labels these limits so the concept can be shown honestly.
+Client notes, cadence changes, added clients, activity, and assistant settings persist in the current browser's local storage. New fictional accounts are added to existing browser data after an update without overwriting saved changes. There is no backend, authentication, actual AI generation, mailbox connection, email delivery, reply processing, or CRM integration. The sample draft uses a deterministic template and sample notes. The inbox scenes and teammate totals are illustrative. The prototype labels these limits so the concept can be shown honestly.
